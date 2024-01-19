@@ -1,0 +1,32 @@
+- Analysis Color Channel dengan Skewness dan Kurtosis
+
+KEYWORD SCRAPE IMAGE GOOGLE
+- Chicken Boiler
+- Raw Chicken
+- White Background
+- daging ayam potong
+
+LABEL
+- Kepala - Leher
+- Dada
+- Full Sayap
+- Paha Atas
+- Paha Bawah
+- Kaki
+
+PAPER
+- https://extension.umaine.edu/publications/4068e/
+- http://vetjournal.ankara.edu.tr/tr/download/article-file/776228
+- https://journals.tubitak.gov.tr/cgi/viewcontent.cgi?article=2992&context=veterinary
+
+
+1774 : https://www.eatthis.com/wp-content/uploads/sites/4/2019/07/man-prepping-raw-chicken.jpg?quality=82&strip=all&w=640
+
+- Ditampilkan
+- Btn Next
+- Btn Sebelumnya
+- Btn Pindah
+  - Rename
+  - simpan data csv
+    - Nama_file
+- Btn Delete
