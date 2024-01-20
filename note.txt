@@ -28,5 +28,20 @@ PAPER
 - Btn Pindah
   - Rename
   - simpan data csv
-    - Nama_file
+    - nama_file
+    - 6 kelas
 - Btn Delete
+
+
+# self.checkbox_vars = [IntVar() for _ in range(len(self.csv_headers))]
+# for i, title in enumerate(self.csv_headers):
+#     checkbox = Checkbutton(self.root, text=title, variable=self.checkbox_vars[i], command=self.update_checkbox_value)
+#     self.checkbox_list.append(checkbox)
+#     checkbox.grid(row=i + 3, column=1, pady=5)
+#     # checkbox.pack(anchor='w')
+#     # checkbox = Checkbutton(root, text=title, variable=self.checkbox_vars[i], bg="#333333", fg="white", command=lambda i=i: self.update_checkbox_value(i))
+# # Toggle the checkbox state
+# # self.checkbox_vars[index].set(1 - self.checkbox_vars[index].get())
+# checked_boxes = [var.get() for var in self.checkboxes_vars]
+# # checked_titles = [self.titles[i] for i, checked in enumerate(checked_boxes) if checked]
+# # print("Checked titles:", checked_titles)

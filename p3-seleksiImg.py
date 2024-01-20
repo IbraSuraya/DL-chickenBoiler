@@ -10,7 +10,10 @@ class ImageViewer:
         self.image_folder = image_folder
         self.image_files = [f for f in os.listdir(image_folder) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))]
         self.current_index = 0
-        self.idx = 1
+        self.idx = 700
+        self.csv_headers = ["neckHead", "breast", "wing", "thigh", "feet"]
+        self.checkbox_vars = [IntVar() for _ in range(6)]
+        self.checkbox_list = []
 
         # Set background color of the root window
         root.configure(bg="#333333")  # You can adjust the hex color code as needed
@@ -18,11 +21,11 @@ class ImageViewer:
         self.previous_button = Button(root, text="Previous", state="disabled", command=self.show_previous, bg="#555555", fg="white", width=15, height=2)
         self.previous_button.grid(row=1, column=0, padx=100)
 
-        self.move_button = Button(root, text="Pindahkan", command=self.move_image, bg="#555555", fg="white", width=15, height=2)
-        self.move_button.grid(row=0, column=1, pady=20, padx=80)
-
         self.delete_button = Button(root, text="Delete", command=self.delete_image, bg="#555555", fg="white", width=15, height=2)
-        self.delete_button.grid(row=0, column=2, pady=20, padx=80)
+        self.delete_button.grid(row=0, column=1, pady=20, padx=80)
+
+        self.move_button = Button(root, text="Pindahkan", command=self.move_image, bg="#555555", fg="white", width=15, height=2)
+        self.move_button.grid(row=0, column=2, pady=20, padx=80)
 
         self.next_button = Button(root, text="Next", command=self.show_next, bg="#555555", fg="white", width=15, height=2)
         self.next_button.grid(row=1, column=3, padx=100)
@@ -33,13 +36,14 @@ class ImageViewer:
         self.filename_label = Label(root, text="", bg="#333333", fg="white")  # Label for displaying filename
         self.filename_label.grid(row=2, column=0, columnspan=4, pady=10)
 
-        # Checkboxes
-        self.checkbox_vars = [IntVar() for _ in range(6)]
-        checkbox_titles = ["KepalaLeher", "Dada", "Full Sayap", "Paha Atas", "Paha Bawah", "Kaki"]
+        # Inside __init__ method
+        self.checkbox_vars = [IntVar() for _ in self.csv_headers]
 
-        for i, title in enumerate(checkbox_titles):
-            checkbox = Checkbutton(root, text=title, variable=self.checkbox_vars[i], bg="#333333", fg="white")
-            checkbox.grid(row=i + 3, column=0, pady=5)
+        # Checkboxes
+        for i, title in enumerate(self.csv_headers):
+            checkbox = Checkbutton(self.root, text=title, variable=self.checkbox_vars[i], command=lambda i=i: self.update_checkbox_value(i))
+            self.checkbox_list.append(checkbox)
+            checkbox.grid(row=i + 3, column=1, pady=5)
 
         self.show_image()
 
@@ -66,8 +70,9 @@ class ImageViewer:
         self.image_label.image = tk_img
 
         # Update the filename label
-        filename = f"Img-{self.idx}"
-        self.filename_label.config(text=filename)
+        # filename = f"Img-{self.idx}"
+        filename = self.image_files[self.current_index]
+        self.filename_label.config(text=filename[-10:]+f"{self.idx}")
 
         self.update_buttons_state()
 
@@ -81,7 +86,7 @@ class ImageViewer:
 
     def move_image(self):
         image_path = os.path.join(self.image_folder, self.image_files[self.current_index])
-        destination_folder = "baru"
+        destination_folder = "data\\fix"
 
         if not os.path.exists(destination_folder):
             os.makedirs(destination_folder)
@@ -92,16 +97,22 @@ class ImageViewer:
         # Move the image only if the "Pindahkan" button is clicked
         shutil.move(image_path, destination_path)
 
+        # Mendapatkan nilai checkbox dan menyusunnya menjadi list
+        checkbox_values = [var.get() for var in self.checkbox_vars]
+
         # Update the CSV file only if the image is successfully moved
-        csv_file_path = os.path.join(os.path.dirname(self.image_folder), "moved_files.csv")
+        csv_file_path = os.path.join(os.path.dirname(self.image_folder), "multiLabel.csv")
         with open(csv_file_path, mode='a', newline='') as csv_file:
             csv_writer = csv.writer(csv_file)
 
             # Write header if the file is newly created
             if os.path.getsize(csv_file_path) == 0:
-                csv_writer.writerow(["nama_file"])
+                header_row = ["nama_file"] + self.csv_headers
+                csv_writer.writerow(header_row)
 
-            csv_writer.writerow([destination_filename])
+            # Write data row
+            data_row = [destination_filename] + checkbox_values
+            csv_writer.writerow(data_row)
 
         # Increment index for the next image
         self.idx += 1
@@ -145,6 +156,10 @@ class ImageViewer:
             self.next_button["state"] = "disabled"
         else:
             self.next_button["state"] = "normal"
+  
+    # Inside your ImageViewer class
+    def update_checkbox_value(self, index):
+        checked_boxes = [var.get() for var in self.checkbox_vars]
 
 if __name__ == "__main__":
     root = Tk()
@@ -154,7 +169,7 @@ if __name__ == "__main__":
     # Set the background color of the root window
     root.configure(bg="#333333")
 
-    image_folder = "lama"  # Replace with your image folder
+    image_folder = "data\\raw2"  # Replace with your image folder
     if not os.path.exists(image_folder):
         print(f"Error: Folder '{image_folder}' not found.")
     else:
