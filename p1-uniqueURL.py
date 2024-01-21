@@ -1,5 +1,5 @@
-file_path = 'data\\url.txt' 
-output_path = "data\\url_unique.txt"
+file_path = 'scrapeData\\url.txt' 
+output_path = "scrapeData\\url_unique.txt"
 data = []
 
 try:

@@ -1,5 +1,17 @@
 - Analysis Color Channel dengan Skewness dan Kurtosis
 
+URUTAN
+- Scrape link image sebanyak 4014 url (url.txt) dari google image dengan JS (p0-scrapeURL.js)
+  - Dilakukan beberapa kali dengan KEYWORD berbeda
+- Hapus link image yang duplikat, dari 4014 menjadi 3644 (url_unique.txt | p1-unique.py)
+- Download semua gambar dari semua link image
+  - Terbagi 2 Sesi 
+    - url_unique.txt : 1774 (raw1) -> 1300an
+    - url_unique2.txt : 1869 (raw2) -> 1300an
+- Seleksi manual sesuai dengan kriteria label pada raw1 dan raw2 -> 1354 (fix1 dan fix2)
+  - Menghasilkan file multilabel.csv
+- Split data train 80% dan test 20%
+
 KEYWORD SCRAPE IMAGE GOOGLE
 - Chicken Boiler
 - Raw Chicken
@@ -14,10 +26,11 @@ LABEL
 - Paha Bawah
 - Kaki
 
-PAPER
+PAPER AYAM
 - https://extension.umaine.edu/publications/4068e/
 - http://vetjournal.ankara.edu.tr/tr/download/article-file/776228
 - https://journals.tubitak.gov.tr/cgi/viewcontent.cgi?article=2992&context=veterinary
+- https://repository.upnvj.ac.id/7428/
 
 
 1774 : https://www.eatthis.com/wp-content/uploads/sites/4/2019/07/man-prepping-raw-chicken.jpg?quality=82&strip=all&w=640
